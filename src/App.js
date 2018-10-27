@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import PostcodeInput from "./postcode/postcode.input";
-import PointComponent from './PointComponent';
+import PointComponent from './crime/PointComponent';
 import MyMapComponent from './map/Map';
 
 class App extends Component {

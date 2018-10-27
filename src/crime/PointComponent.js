@@ -19,29 +19,43 @@ class PointComponent extends Component {
     }
 
     render() {
-        let nearest, distances
+    
+        let nearestSpacesWithScores 
+
+        const parkingTree = rbush(0, ['[0]', '[1]', '[0]', '[1]']);
+
+        parkingTree.load(fakeParkingData.map(space => space.latLong))
+
+        const nearestSpaces = knn(parkingTree, this.props.postcodeLatLong[0], this.props.postcodeLatLong[1], 10)
        
         if (this.state.crimeLatLongs) {
     
-            const tree = rbush(9, ['[0]', '[1]', '[0]', '[1]']);
+            const crimeTree = rbush(9, ['[0]', '[1]', '[0]', '[1]']);
         
-            tree.load(this.state.crimeLatLongs)
-        
-            nearest = knn(tree, this.props.postcodeLatLong[0], this.props.postcodeLatLong[1], 3);
+            crimeTree.load(this.state.crimeLatLongs)
 
-            distances = nearest.map(point => computePythagDistance(point, this.props.postcodeLatLong))
+            nearestSpacesWithScores = nearestSpaces.map(space => {
+                const nearest = knn(crimeTree, space[0], space[1], 5);
+
+                const distances = nearest.map(point => computePythagDistance(point, space))
+
+                const score = computeAverageScore(distances)
+                const name = fakeParkingData.find(element => element.latLong === space).name
+
+                return { 'latLong': space, score, name }
+            })
         }
     
     
         return (
               <div>
-                  { distances &&
+                 { nearestSpacesWithScores && nearestSpacesWithScores.map(space => 
                     <div>
-                        nearest: { nearest[0] + ', ' + nearest[1] + ', ' + nearest[2] }
-                        distances: {distances[0] + ', ' + distances[1] + ', ' + distances[2]}
-                        score: {computeAverageScore(distances)}
+                        <p>{space.name}</p>
+                        <p>{space.latLong}</p>
+                        <p>{space.score}</p>
                     </div>
-                  }
+                 ) }
               </div>
         )
 
@@ -68,4 +82,22 @@ const computeAverageScore = (values) => {
 }  
 
 export default PointComponent
+
+
+
+
+const fakeParkingData = [
+    {
+        latLong: [53.4810, -2.2369],
+        name: 'pic'
+    },
+    {
+        latLong: [53.4815, -2.2365],
+        name: 'not pic'
+    },
+    {
+        latLong: [53.4819, -2.2359],
+        name: 'maybe pic'
+    }
+]
   
