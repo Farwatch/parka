@@ -6,16 +6,13 @@ import ParkingData from '../resources/parking_spaces'
 
 class PointComponent extends Component {
     state = {
-        crimeLatLongs: false,
-        picGardens: [53.4810, -2.2369]
+        nearestSpacesWithScores: false,
     }
     
     async componentDidUpdate(prevProps) {
         if (this.props.postcodeLatLong !== prevProps.postcodeLatLong) {
             const crimeLatLongs = await fetchCrimeData(this.props.postcodeLatLong)
-            this.setState({
-                crimeLatLongs: crimeLatLongs
-            })
+            this.props.setCrimeSpots(crimeLatLongs)
 
             let nearestSpacesWithScores 
 
@@ -25,11 +22,11 @@ class PointComponent extends Component {
     
             const nearestSpaces = knn(parkingTree, this.props.postcodeLatLong[0], this.props.postcodeLatLong[1], 10)
            
-            if (this.state.crimeLatLongs) {
+            if (this.props.crimeLatLongs) {
         
                 const crimeTree = rbush(9, ['[0]', '[1]', '[0]', '[1]']);
             
-                crimeTree.load(this.state.crimeLatLongs)
+                crimeTree.load(this.props.crimeLatLongs)
     
                 nearestSpacesWithScores = nearestSpaces.map(space => {
                     const nearest = knn(crimeTree, space[0], space[1], 5);
@@ -58,9 +55,7 @@ class PointComponent extends Component {
     }
 
     render() {
-    
         const { nearestSpacesWithScores } = this.state
-    
     
         return (
               <div>

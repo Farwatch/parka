@@ -9,7 +9,8 @@ class App extends Component {
   state = {
     postcodeLatLong: [0,0],
     isMarkerShown: false,
-    parkingSpots: []
+    parkingSpots: [],
+    crimeSpots: []
   }
 
   setLatLong(lat, long) {
@@ -24,6 +25,12 @@ class App extends Component {
     })
   }
 
+  setCrimeSpots(crimeSpots) {
+    this.setState({
+      crimeSpots: crimeSpots
+    })
+  }
+  
   enableMarker(){
       this.setState({
           isMarkerShown: true
@@ -38,16 +45,20 @@ class App extends Component {
           <PostcodeInput setLatLong={(lat, long) => this.setLatLong(lat, long)} enableMarker={()=> this.enableMarker()}/>
 
           <MyMapComponent
-              isMarkerShown={ this.state.isMarkerShown }
-              googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxjOZ_DHOBrb_zRdVsXb2vfsUghJp6RzA&v=3.exp&libraries=geometry,drawing,places"
+              isMarkerShown={this.state.isMarkerShown}
+              googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxjOZ_DHOBrb_zRdVsXb2vfsUghJp6RzA&v=3.exp&libraries=geometry,drawing,places,visualization"
               loadingElement={<div style={{ height: `150%` }} />}
               containerElement={<div style={{ height: `700px` }} />}
               mapElement={<div style={{ height: `100%` }} />}
               postocodeLatLong={this.state.postcodeLatLong}
               parkingSpots={this.state.parkingSpots}
+              crimeSpots={this.state.crimeSpots}
           />
 
-          <PointComponent postcodeLatLong={this.state.postcodeLatLong} setParkingSpots={(a) => this.setParkingSpots(a)} />
+          <PointComponent postcodeLatLong={this.state.postcodeLatLong}
+                          setParkingSpots={a => this.setParkingSpots(a)}
+                          setCrimeSpots={b => this.setCrimeSpots(b)}
+                          crimeLatLongs={this.state.crimeSpots} />
       </div>
     );
   }

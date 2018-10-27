@@ -1,5 +1,7 @@
+/* global google */
 import React from 'react'
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
+import HeatmapLayer from 'react-google-maps/lib/components/visualization/HeatmapLayer'
 import carParkImage from './park-50.png'
 
 
@@ -22,7 +24,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                 </Marker>
             }
             {
-                props.isMarkerShown ?
+                props.isMarkerShown &&
                     props.parkingSpots.map((parkSpot,index) => {
                     return <Marker
                         key={index}
@@ -34,8 +36,11 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                     >
                     </Marker>
                     })
-                    :
-                    null
+            }
+            {
+                <HeatmapLayer data={props.crimeSpots.map(
+                    crime => new google.maps.LatLng(crime[0], crime[1])
+                )} />
             }
         </GoogleMap>
     )
