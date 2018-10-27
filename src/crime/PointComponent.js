@@ -15,40 +15,48 @@ class PointComponent extends Component {
             this.setState({
                 crimeLatLongs: crimeLatLongs
             })
+
+            let nearestSpacesWithScores 
+
+            const parkingTree = rbush(0, ['[0]', '[1]', '[0]', '[1]']);
+    
+            parkingTree.load(fakeParkingData.map(space => space.latLong))
+    
+            const nearestSpaces = knn(parkingTree, this.props.postcodeLatLong[0], this.props.postcodeLatLong[1], 10)
+           
+            if (this.state.crimeLatLongs) {
+        
+                const crimeTree = rbush(9, ['[0]', '[1]', '[0]', '[1]']);
+            
+                crimeTree.load(this.state.crimeLatLongs)
+    
+                nearestSpacesWithScores = nearestSpaces.map(space => {
+                    const nearest = knn(crimeTree, space[0], space[1], 5);
+    
+                    const distances = nearest.map(point => computePythagDistance(point, space))
+    
+                    const score = computeAverageScore(distances)
+                    const name = fakeParkingData.find(element => element.latLong === space).name
+    
+                    return { 'latLong': space, score, name }
+                })
+    
+                nearestSpacesWithScores.sort((elementA, elementB) => elementB.score - elementA.score)
+    
+                nearestSpacesWithScores = nearestSpacesWithScores.slice(0,1)
+
+                this.setState({
+                    nearestSpacesWithScores: nearestSpacesWithScores
+                })
+    
+                this.props.setParkingSpots(nearestSpacesWithScores.map(space => ({lat: space.latLong[0], long: space.latLong[1]})))
+            }
         }
     }
 
     render() {
     
-        let nearestSpacesWithScores 
-
-        const parkingTree = rbush(0, ['[0]', '[1]', '[0]', '[1]']);
-
-        parkingTree.load(fakeParkingData.map(space => space.latLong))
-
-        const nearestSpaces = knn(parkingTree, this.props.postcodeLatLong[0], this.props.postcodeLatLong[1], 10)
-       
-        if (this.state.crimeLatLongs) {
-    
-            const crimeTree = rbush(9, ['[0]', '[1]', '[0]', '[1]']);
-        
-            crimeTree.load(this.state.crimeLatLongs)
-
-            nearestSpacesWithScores = nearestSpaces.map(space => {
-                const nearest = knn(crimeTree, space[0], space[1], 5);
-
-                const distances = nearest.map(point => computePythagDistance(point, space))
-
-                const score = computeAverageScore(distances)
-                const name = fakeParkingData.find(element => element.latLong === space).name
-
-                return { 'latLong': space, score, name }
-            })
-
-            nearestSpacesWithScores.sort((elementA, elementB) => elementB.score - elementA.score)
-
-            nearestSpacesWithScores = nearestSpacesWithScores.slice(0,1)
-        }
+        const { nearestSpacesWithScores } = this.state
     
     
         return (
