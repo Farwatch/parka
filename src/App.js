@@ -70,9 +70,9 @@ class App extends Component {
           <PointComponent postcodeLatLong={this.state.postcodeLatLong}
                           setParkingSpots={a => this.setParkingSpots(a)}
                           setCrimeSpots={b => this.setCrimeSpots(b)}
-                          crimeLatLongs={this.state.crimeSpots} 
+                          crimeLatLongs={this.state.crimeSpots.map(crime => crime.latLong)} 
                           setSelectedLatLongDestination={(a) => this.setSelectedLatLongDestination(a)}
-                          />
+          />
       </div>
     );
   }

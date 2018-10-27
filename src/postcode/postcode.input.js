@@ -6,8 +6,6 @@ import FormControl from 'react-bootstrap/lib/FormControl'
 import FormGroup from 'react-bootstrap/lib/FormGroup'
 import Button from 'react-bootstrap/lib/Button'
 
-
-
 class PostcodeInput extends React.Component {
     constructor(props) {
         super(props);
