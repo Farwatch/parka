@@ -11,7 +11,8 @@ class MyMappComponent extends React.Component{
         directions: null
     }
 
-    componentDidMount() {
+    componentDidUpdate() {
+        if (this.props.isDestinationShown) {
         const DirectionsService = new google.maps.DirectionsService();
         DirectionsService.route({
             origin: new google.maps.LatLng(this.props.directionOrigin[0], this.props.directionOrigin[1]),
@@ -28,6 +29,7 @@ class MyMappComponent extends React.Component{
             }
         });
     }
+    }
 
     render() {
         const defaultLat = this.props.postocodeLatLong[0] ? this.props.postocodeLatLong[0] : 53.483959
@@ -35,7 +37,7 @@ class MyMappComponent extends React.Component{
         return (
             <GoogleMap
                 center={{ lat: defaultLat, lng:  defaultLong }}
-                zoom={this.props.postocodeLatLong[0] ? 15: 10}
+                zoom={this.props.postocodeLatLong[0] ? 16: 14}
             >
                 {
                     this.props.isMarkerShown &&

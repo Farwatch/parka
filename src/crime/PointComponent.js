@@ -3,6 +3,9 @@ import rbush from 'rbush';
 import knn from 'rbush-knn';
 import fetch from 'isomorphic-fetch'
 import ParkingData from '../resources/parking_spaces'
+import Form from 'react-bootstrap/lib/Form'
+import Radio from 'react-bootstrap/lib/Radio'
+import FormGroup from 'react-bootstrap/lib/FormGroup'
 
 class PointComponent extends Component {
     state = {
@@ -56,17 +59,20 @@ class PointComponent extends Component {
 
     render() {
         const { nearestSpacesWithScores } = this.state
+        const { setSelectedLatLongDestination } = this.props
     
         return (
-              <div>
-                 { nearestSpacesWithScores && nearestSpacesWithScores.map((space,index) =>
-                    <div key={index}>
-                        <p>{space.name}</p>
-                        <p>{space.latLong}</p>
-                        <p>{space.score}</p>
-                    </div>
+            <Form>
+            <FormGroup>
+                 { nearestSpacesWithScores && nearestSpacesWithScores.map(space => 
+                    <Radio name="radioGroup" className="parking-result" key={space.name} onChange={() => setSelectedLatLongDestination(space.latLong)}>
+                        <h3>{space.name}</h3>
+                        <p>Latitude: {space.latLong[0]}, Longitude: {space.latLong[1]}</p>
+                        <p>Safety score: {convertToDisplayScore(space.score)}</p>
+                    </Radio>
                  ) }
-              </div>
+              </FormGroup>
+            </Form>
         )
 
       }
@@ -90,5 +96,9 @@ const computePythagDistance = (point1, point2) => {
 const computeAverageScore = (values) => {
     return values.length > 0 ? values.reduce((a, c) => a + c) / values.length : 0
 }  
+
+const convertToDisplayScore = score => {
+    return Math.round( score * 100000) / 10
+}
 
 export default PointComponent

@@ -10,7 +10,8 @@ class App extends Component {
     postcodeLatLong: [0,0],
     isMarkerShown: false,
     parkingSpots: [],
-    crimeSpots: []
+    crimeSpots: [],
+    selectedLatLongDestination: []
   }
 
   setLatLong(lat, long) {
@@ -37,6 +38,12 @@ class App extends Component {
       })
   }
 
+  setSelectedLatLongDestination(latLong) {
+    this.setState({
+      selectedLatLongDestination: latLong
+  })
+  }
+
 
   render() {
     return (
@@ -44,6 +51,7 @@ class App extends Component {
       <h1 className="text-center">Safe Parka</h1>
           <PostcodeInput setLatLong={(lat, long) => this.setLatLong(lat, long)} enableMarker={()=> this.enableMarker()}/>
 
+          <div className="App-map-box">
           <MyMapComponent
               isMarkerShown={this.state.isMarkerShown}
               googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxjOZ_DHOBrb_zRdVsXb2vfsUghJp6RzA&v=3.exp&libraries=geometry,drawing,places,visualization"
@@ -52,16 +60,19 @@ class App extends Component {
               mapElement={<div style={{ height: `100%` }} />}
               postocodeLatLong={this.state.postcodeLatLong}
               parkingSpots={this.state.parkingSpots}
-              directionOrigin={[53.480333, -2.236441]}
-              directionDestination={[53.480310, -2.238390]}
+              directionOrigin={this.state.postcodeLatLong}
+              directionDestination={this.state.selectedLatLongDestination}
               isDestinationShown={true}
               crimeSpots={this.state.crimeSpots}
           />
+          </div>
 
           <PointComponent postcodeLatLong={this.state.postcodeLatLong}
                           setParkingSpots={a => this.setParkingSpots(a)}
                           setCrimeSpots={b => this.setCrimeSpots(b)}
-                          crimeLatLongs={this.state.crimeSpots} />
+                          crimeLatLongs={this.state.crimeSpots} 
+                          setSelectedLatLongDestination={(a) => this.setSelectedLatLongDestination(a)}
+                          />
       </div>
     );
   }

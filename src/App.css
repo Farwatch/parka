@@ -13,6 +13,12 @@
   margin-top: 5px;
 }
 
+.App-map-box {
+  width: 90%;
+  margin-left: 5%;
+  margin-top: 5px;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -26,6 +32,18 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.parking-result {
+  width: 90%;
+  margin-left: 5%;
+  display: block;
+  background-color: aliceblue;
+  padding: 5px 3px 5px 3px;
+  margin-top: 5px;
+  border: 1px solid;
+    padding: 10px;
+    box-shadow: 2px 2px #888888;
 }
 
 @keyframes App-logo-spin {
