@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import rbush from 'rbush';
 import knn from 'rbush-knn';
 import fetch from 'isomorphic-fetch'
+import ParkingData from '../resources/parking_spaces'
 
 class PointComponent extends Component {
     state = {
@@ -20,7 +21,7 @@ class PointComponent extends Component {
 
             const parkingTree = rbush(0, ['[0]', '[1]', '[0]', '[1]']);
     
-            parkingTree.load(fakeParkingData.map(space => space.latLong))
+            parkingTree.load(ParkingData.map(space => [space.lat, space.lng]))
     
             const nearestSpaces = knn(parkingTree, this.props.postcodeLatLong[0], this.props.postcodeLatLong[1], 10)
            
@@ -36,14 +37,16 @@ class PointComponent extends Component {
                     const distances = nearest.map(point => computePythagDistance(point, space))
     
                     const score = computeAverageScore(distances)
-                    const name = fakeParkingData.find(element => element.latLong === space).name
+                    const spaceInOriginalData = ParkingData.find(element => {return element.lat === space[0] && element.lng === space[1]})
+                    const name = spaceInOriginalData && spaceInOriginalData['street_name']
+
     
                     return { 'latLong': space, score, name }
                 })
     
                 nearestSpacesWithScores.sort((elementA, elementB) => elementB.score - elementA.score)
     
-                nearestSpacesWithScores = nearestSpacesWithScores.slice(0,1)
+                nearestSpacesWithScores = nearestSpacesWithScores.slice(0,4)
 
                 this.setState({
                     nearestSpacesWithScores: nearestSpacesWithScores
@@ -94,22 +97,3 @@ const computeAverageScore = (values) => {
 }  
 
 export default PointComponent
-
-
-
-
-const fakeParkingData = [
-    {
-        latLong: [53.4810, -2.2369],
-        name: 'pic'
-    },
-    {
-        latLong: [53.4815, -2.2365],
-        name: 'not pic'
-    },
-    {
-        latLong: [53.4819, -2.2359],
-        name: 'maybe pic'
-    }
-]
-  

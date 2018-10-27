@@ -8,12 +8,9 @@
 }
 
 .App-postocde {
-  width: 10%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-  border: 1px solid #555;
-  outline: none;
+  width: 60%;
+  margin-left: 20%;
+  margin-top: 5px;
 }
 
 .App-header {

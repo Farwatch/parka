@@ -34,6 +34,7 @@ class App extends Component {
   render() {
     return (
       <div className="Safe Parka">
+      <h1 className="text-center">Safe Parka</h1>
           <PostcodeInput setLatLong={(lat, long) => this.setLatLong(lat, long)} enableMarker={()=> this.enableMarker()}/>
 
           <MyMapComponent
