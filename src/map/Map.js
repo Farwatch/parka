@@ -48,7 +48,7 @@ class MyMappComponent extends React.Component{
                     </Marker>
                 }
                 {
-                    this.props.isMarkerShown ?
+                    this.props.isMarkerShown &&
                         this.props.parkingSpots.map((parkSpot,index) => {
                             return <Marker
                                 key={index}
@@ -60,8 +60,15 @@ class MyMappComponent extends React.Component{
                             >
                             </Marker>
                         })
-                        :
-                        null
+                }
+                {
+                    <HeatmapLayer
+                        radius={35}
+                        dissipating={false}
+                        data={this.props.crimeSpots.map(
+                            crime => new google.maps.LatLng(crime[0], crime[1])
+                        )}
+                    />
                 }
                 {
                     this.state.directions && this.props.isDestinationShown && <DirectionsRenderer directions={this.state.directions} />

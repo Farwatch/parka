@@ -43,7 +43,7 @@ class PointComponent extends Component {
     
                 nearestSpacesWithScores.sort((elementA, elementB) => elementB.score - elementA.score)
     
-                nearestSpacesWithScores = nearestSpacesWithScores.slice(0,3)
+                nearestSpacesWithScores = nearestSpacesWithScores.slice(0,4)
 
                 this.setState({
                     nearestSpacesWithScores: nearestSpacesWithScores
