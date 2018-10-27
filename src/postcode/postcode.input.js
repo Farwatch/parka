@@ -3,6 +3,7 @@ import postcodesioClient from 'postcodesio-client'
 import './../App.css';
 
 
+
 class PostcodeInput extends React.Component {
     constructor(props) {
         super(props);
@@ -20,6 +21,7 @@ class PostcodeInput extends React.Component {
         postcode.lookup(this.state.postcode).then(postcode => {
             console.log(postcode);
             this.props.setLatLong(postcode.latitude, postcode.longitude)
+            this.props.enableMarker()
         })
     }
 
