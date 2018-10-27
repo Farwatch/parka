@@ -59,8 +59,8 @@ class PointComponent extends Component {
     
         return (
               <div>
-                 { nearestSpacesWithScores && nearestSpacesWithScores.map(space => 
-                    <div>
+                 { nearestSpacesWithScores && nearestSpacesWithScores.map((space,index) =>
+                    <div key={index}>
                         <p>{space.name}</p>
                         <p>{space.latLong}</p>
                         <p>{space.score}</p>

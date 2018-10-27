@@ -30,7 +30,7 @@ class App extends Component {
       crimeSpots: crimeSpots
     })
   }
-  
+
   enableMarker(){
       this.setState({
           isMarkerShown: true
@@ -52,6 +52,9 @@ class App extends Component {
               mapElement={<div style={{ height: `100%` }} />}
               postocodeLatLong={this.state.postcodeLatLong}
               parkingSpots={this.state.parkingSpots}
+              directionOrigin={[53.480333, -2.236441]}
+              directionDestination={[53.480310, -2.238390]}
+              isDestinationShown={true}
               crimeSpots={this.state.crimeSpots}
           />
 
