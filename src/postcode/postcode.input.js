@@ -4,7 +4,6 @@ import './../App.css';
 import Form from 'react-bootstrap/lib/Form'
 import FormControl from 'react-bootstrap/lib/FormControl'
 import FormGroup from 'react-bootstrap/lib/FormGroup'
-import ControlLabel from 'react-bootstrap/lib/ControlLabel'
 import Button from 'react-bootstrap/lib/Button'
 
 
