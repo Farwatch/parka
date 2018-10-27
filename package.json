@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
     "postcodesio-client": "^0.3.4",
+    "rbush": "^2.0.2",
+    "rbush-knn": "^2.1.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-scripts": "2.0.5"
