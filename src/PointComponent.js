@@ -10,8 +10,8 @@ class PointComponent extends Component {
       }
     
     async componentDidUpdate(prevProps) {
-        if (this.props.latLong !== prevProps.latLong) {
-            const crimeLatLongs = await fetchCrimeData(this.props.latLong)
+        if (this.props.postcodeLatLong !== prevProps.postcodeLatLong) {
+            const crimeLatLongs = await fetchCrimeData(this.props.postcodeLatLong)
             this.setState({
                 crimeLatLongs: crimeLatLongs
             })
@@ -27,9 +27,9 @@ class PointComponent extends Component {
         
             tree.load(this.state.crimeLatLongs)
         
-            nearest = knn(tree, this.props.latLong[0], this.props.latLong[1], 3);
+            nearest = knn(tree, this.props.postcodeLatLong[0], this.props.postcodeLatLong[1], 3);
 
-            distances = nearest.map(point => computePythagDistance(point, this.props.latLong))
+            distances = nearest.map(point => computePythagDistance(point, this.props.postcodeLatLong))
         }
     
     
