@@ -11,7 +11,7 @@ class App extends Component {
     isMarkerShown: false,
     parkingSpots: [],
     crimeSpots: [],
-    selectedLatLongDestination: []
+    selectedLatLongDestination: false
   }
 
   setLatLong(lat, long) {
@@ -60,9 +60,9 @@ class App extends Component {
               mapElement={<div style={{ height: `100%` }} />}
               postocodeLatLong={this.state.postcodeLatLong}
               parkingSpots={this.state.parkingSpots}
-              directionOrigin={this.state.postcodeLatLong}
-              directionDestination={this.state.selectedLatLongDestination}
-              isDestinationShown={true}
+              directionOrigin={this.state.selectedLatLongDestination}
+              directionDestination={this.state.postcodeLatLong}
+              isDestinationShown={!!this.state.selectedLatLongDestination}
               crimeSpots={this.state.crimeSpots}
           />
           </div>

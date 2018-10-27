@@ -65,7 +65,11 @@ class PointComponent extends Component {
             <Form>
             <FormGroup>
                  { nearestSpacesWithScores && nearestSpacesWithScores.map(space => 
-                    <Radio name="radioGroup" className="parking-result" key={space.name} onChange={() => setSelectedLatLongDestination(space.latLong)}>
+                    <Radio name="radioGroup" 
+                           className="parking-result"
+                           key={space.name} 
+                           onChange={() => setSelectedLatLongDestination(space.latLong)}
+                           >
                         <h3>{space.name}</h3>
                         <p>Latitude: {space.latLong[0]}, Longitude: {space.latLong[1]}</p>
                         <p>Safety score: {convertToDisplayScore(space.score)}</p>
