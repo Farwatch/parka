@@ -44,6 +44,10 @@ class PointComponent extends Component {
 
                 return { 'latLong': space, score, name }
             })
+
+            nearestSpacesWithScores.sort((elementA, elementB) => elementB.score - elementA.score)
+
+            nearestSpacesWithScores = nearestSpacesWithScores.slice(0,1)
         }
     
     
