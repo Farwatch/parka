@@ -1,50 +1,75 @@
 /* global google */
 import React from 'react'
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
 import HeatmapLayer from 'react-google-maps/lib/components/visualization/HeatmapLayer'
+import { withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer, Marker, } from "react-google-maps"
 import carParkImage from './park-50.png'
 
 
-const MyMapComponent = withScriptjs(withGoogleMap((props) => {
-    const defaultLat = props.postocodeLatLong[0] ? props.postocodeLatLong[0] : 53.483959
-    const defaultLong = props.postocodeLatLong[1] ? props.postocodeLatLong[1] : -2.244644
-    return (
-        <GoogleMap 
-                center={{ lat: defaultLat, lng:  defaultLong }}
-                zoom={props.postocodeLatLong[0] ? 15: 10}
-                >
-            {
-                props.isMarkerShown &&
-                <Marker
-                    position={{
-                    lat: props.postocodeLatLong[0],
-                    lng: props.postocodeLatLong[1]
-                }}
-                >
-                </Marker>
+class MyMappComponent extends React.Component{
+
+    state = {
+        directions: null
+    }
+
+    componentDidMount() {
+        const DirectionsService = new google.maps.DirectionsService();
+        DirectionsService.route({
+            origin: new google.maps.LatLng(this.props.directionOrigin[0], this.props.directionOrigin[1]),
+            destination: new google.maps.LatLng(this.props.directionDestination[0], this.props.directionDestination[1]),
+            travelMode: google.maps.TravelMode.WALKING,
+        }, (result, status) => {
+            if (status === google.maps.DirectionsStatus.OK) {
+                console.log(result)
+                this.setState({
+                    directions: result,
+                });
+            } else {
+                console.error(`error fetching directions ${result}`);
             }
-            {
-                props.isMarkerShown &&
-                    props.parkingSpots.map((parkSpot,index) => {
-                    return <Marker
-                        key={index}
+        });
+    }
+
+    render() {
+        const defaultLat = this.props.postocodeLatLong[0] ? this.props.postocodeLatLong[0] : 53.483959
+        const defaultLong = this.props.postocodeLatLong[1] ? this.props.postocodeLatLong[1] : -2.244644
+        return (
+            <GoogleMap
+                center={{ lat: defaultLat, lng:  defaultLong }}
+                zoom={this.props.postocodeLatLong[0] ? 15: 10}
+            >
+                {
+                    this.props.isMarkerShown &&
+                    <Marker
                         position={{
-                            lat: parkSpot.lat,
-                            lng: parkSpot.long
+                            lat: this.props.postocodeLatLong[0],
+                            lng: this.props.postocodeLatLong[1]
                         }}
-                        icon={carParkImage}
                     >
                     </Marker>
-                    })
-            }
-            {
-                <HeatmapLayer data={props.crimeSpots.map(
-                    crime => new google.maps.LatLng(crime[0], crime[1])
-                )} />
-            }
-        </GoogleMap>
-    )
-        }))
+                }
+                {
+                    this.props.isMarkerShown ?
+                        this.props.parkingSpots.map((parkSpot,index) => {
+                            return <Marker
+                                key={index}
+                                position={{
+                                    lat: parkSpot.lat,
+                                    lng: parkSpot.long
+                                }}
+                                icon={carParkImage}
+                            >
+                            </Marker>
+                        })
+                        :
+                        null
+                }
+                {
+                    this.state.directions && this.props.isDestinationShown && <DirectionsRenderer directions={this.state.directions} />
+                }
+            </GoogleMap>
 
+        )
+    }
+}
 
-export default MyMapComponent
+export default withScriptjs(withGoogleMap(MyMappComponent))
