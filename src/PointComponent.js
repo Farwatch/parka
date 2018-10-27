@@ -7,7 +7,7 @@ class PointComponent extends Component {
     state = {
         crimeLatLongs: false,
         picGardens: [53.4810, -2.2369]
-      }
+    }
     
     async componentDidUpdate(prevProps) {
         if (this.props.postcodeLatLong !== prevProps.postcodeLatLong) {

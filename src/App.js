@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import PostcodeInput from "./postcode/postcode.input";
-import PointComponent from './PointComponent'
-import MyMapComponent from './map/Map'
+import PointComponent from './PointComponent';
+import MyMapComponent from './map/Map';
 
 class App extends Component {
 
   state = {
-    postcodeLatLong: [0,0],
+    postcodeLatLong: [0,0]
   }
 
   setLatLong(lat, long) {
@@ -19,11 +18,9 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="Safe Parka">
           <PostcodeInput setLatLong={(lat, long) => this.setLatLong(lat, long)} />
-          <div>
-            <PointComponent latLong={this.state.postcodeLatLong} />
-          </div>
+          
           <MyMapComponent
               isMarkerShown
               googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxjOZ_DHOBrb_zRdVsXb2vfsUghJp6RzA&v=3.exp&libraries=geometry,drawing,places"
@@ -32,6 +29,8 @@ class App extends Component {
               mapElement={<div style={{ height: `100%` }} />}
               postocodeLatLong={this.state.postcodeLatLong}
           />
+
+          <PointComponent postcodeLatLong={this.state.postcodeLatLong} />
       </div>
     );
   }
