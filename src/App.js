@@ -5,14 +5,25 @@ import PostcodeInput from "./postcode/postcode.input";
 import PointComponent from './PointComponent'
 
 class App extends Component {
+
+  state = {
+    latLong: [0,0]
+  }
+
+  setLatLong(lat, long) {
+    this.setState({
+      latLong: [lat, long]
+    })
+  }
+
   render() {
     return (
       <div className="App">
-          <PostcodeInput />
+          <PostcodeInput setLatLong={(lat, long) => this.setLatLong(lat, long)} />
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <div>
-            <PointComponent />
+            <PointComponent latLong={this.state.latLong} />
           </div>
           <a
             className="App-link"

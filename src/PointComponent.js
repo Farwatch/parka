@@ -5,35 +5,43 @@ import fetch from 'isomorphic-fetch'
 
 class PointComponent extends Component {
     state = {
-        latLongs: [0, 1],
+        crimeLatLongs: false,
         picGardens: [53.4810, -2.2369]
       }
     
-    async componentDidMount() {
-        const latLongs = await fetchCrimeData(this.state.picGardens)
-        this.setState({
-            latLongs: latLongs
-        })
+    async componentDidUpdate(prevProps) {
+        if (this.props.latLong !== prevProps.latLong) {
+            const crimeLatLongs = await fetchCrimeData(this.props.latLong)
+            this.setState({
+                crimeLatLongs: crimeLatLongs
+            })
+        }
     }
 
     render() {
-
+        let nearest, distances
        
+        if (this.state.crimeLatLongs) {
     
-        const tree = rbush(9, ['[0]', '[1]', '[0]', '[1]']);
-    
-        tree.load(this.state.latLongs)
-    
-        const nearest = knn(tree, 53.4810, -2.2369, 3);
+            const tree = rbush(9, ['[0]', '[1]', '[0]', '[1]']);
+        
+            tree.load(this.state.crimeLatLongs)
+        
+            nearest = knn(tree, this.props.latLong[0], this.props.latLong[1], 3);
 
-        const distances = nearest.map(point => computePythagDistance(point, this.state.picGardens))
+            distances = nearest.map(point => computePythagDistance(point, this.props.latLong))
+        }
     
     
         return (
               <div>
-                nearest: { nearest[0] + ', ' + nearest[1] + ', ' + nearest[2] }
-                distances: {distances[0] + ', ' + distances[1] + ', ' + distances[2]}
-                score: {'score: ' + computeAverageScore(distances)}
+                  { distances &&
+                    <div>
+                        nearest: { nearest[0] + ', ' + nearest[1] + ', ' + nearest[2] }
+                        distances: {distances[0] + ', ' + distances[1] + ', ' + distances[2]}
+                        score: {computeAverageScore(distances)}
+                    </div>
+                  }
               </div>
         )
 
