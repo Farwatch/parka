@@ -58,6 +58,10 @@
 .link-thing {
   padding: 23px;
   text-align: right;
+  margin-bottom: 5px;
+  padding-bottom: 28px;
+  background-color: #fFCc00;
+  color: darkslategrey;
 }
 
 .selected{
