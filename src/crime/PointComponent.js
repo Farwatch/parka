@@ -74,7 +74,7 @@ class PointComponent extends Component {
                     />
                     <label htmlFor={space.name} className={`${selectedLatLongDestination === space.latLong && 'selected'} parking-result`}>
                         <h3>{space.name}</h3>
-                        <p>Distance: {this.props.distanceBetweenOriginDestination[i]} meters</p>
+                        <p>{this.props.distanceBetweenOriginDestination[i]} meters</p>
                         <span style={{float:'right', 'margin-top':'-50px'}}>
                             <Gauge label='' 
                                 height={50} 
