@@ -7,26 +7,44 @@ import carParkImage from './park-50.png'
 class MyMappComponent extends React.Component{
 
     state = {
-        directions: null
+        directions: null,
+        distanceBetweenOriginDestination: 0,
+        isDirectionComputed: false,
+        distancesBetweenOriginDestination: []
     }
 
-    componentDidUpdate() {
-        if (this.props.isDestinationShown) {
-        const DirectionsService = new google.maps.DirectionsService();
-        DirectionsService.route({
-            origin: new google.maps.LatLng(this.props.directionOrigin[0], this.props.directionOrigin[1]),
-            destination: new google.maps.LatLng(this.props.directionDestination[0], this.props.directionDestination[1]),
-            travelMode: google.maps.TravelMode.WALKING,
-        }, (result, status) => {
-            if (status === google.maps.DirectionsStatus.OK) {
-                this.setState({
-                    directions: result,
-                });
-            } else {
-                console.error(`error fetching directions ${result}`);
-            }
-        });
+    setDistanceBetween2Points(origin, destination){
+        const distance = google.maps.geometry.spherical.computeDistanceBetween(origin, destination);
+        this.props.setDistanceBetweenOriginDestination(distance.toFixed(0))
     }
+
+
+
+    componentDidUpdate(prevProps) {
+        if (this.props.isDestinationShown) {
+            let origin = new google.maps.LatLng(this.props.directionOrigin[0], this.props.directionOrigin[1]);
+            let destination = new google.maps.LatLng(this.props.directionDestination[0], this.props.directionDestination[1])
+            const DirectionsService = new google.maps.DirectionsService();
+            DirectionsService.route({
+                origin: origin,
+                destination: destination,
+                travelMode: google.maps.TravelMode.WALKING,
+            }, (result, status) => {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    this.setState({
+                        directions: result,
+                    });
+                }
+            });
+        }
+        if (this.props.parkingSpots !== prevProps.parkingSpots) {
+            this.props.parkingSpots.forEach(parkSpot => {
+                let origin = new google.maps.LatLng(parkSpot.lat, parkSpot.long);
+                let destination = new google.maps.LatLng(this.props.directionDestination[0], this.props.directionDestination[1])
+                this.setDistanceBetween2Points(origin, destination)
+            })
+        }
+
     }
 
     render() {
@@ -52,6 +70,7 @@ class MyMappComponent extends React.Component{
                 {
                     this.props.isMarkerShown &&
                         this.props.parkingSpots.map((parkSpot,index) => {
+
                             return <Marker
                                 key={index}
                                 position={{

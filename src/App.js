@@ -11,7 +11,8 @@ class App extends Component {
     isMarkerShown: false,
     parkingSpots: [],
     crimeSpots: [],
-    selectedLatLongDestination: false
+    selectedLatLongDestination: false,
+    distanceBetweenOriginDestination: []
   }
 
   setLatLong(lat, long) {
@@ -41,8 +42,15 @@ class App extends Component {
   setSelectedLatLongDestination(latLong) {
     this.setState({
       selectedLatLongDestination: latLong
-  })
-  }
+  })}
+
+
+    setDistancesBetweenOriginDestination(distance) {
+      const distanceArray = this.state.distanceBetweenOriginDestination;
+      distanceArray.push(distance);
+        this.setState({
+            distanceBetweenOriginDestination: distanceArray
+        })}
 
 
   render() {
@@ -65,6 +73,7 @@ class App extends Component {
               directionDestination={this.state.postcodeLatLong}
               isDestinationShown={!!this.state.selectedLatLongDestination}
               crimeSpots={this.state.crimeSpots}
+              setDistanceBetweenOriginDestination = {(distances) => this.setDistancesBetweenOriginDestination(distances)}
               onClick={(lat, long) => {
                 this.setLatLong(lat, long)
                 this.enableMarker()
@@ -75,9 +84,12 @@ class App extends Component {
           <PointComponent postcodeLatLong={this.state.postcodeLatLong}
                           setParkingSpots={a => this.setParkingSpots(a)}
                           setCrimeSpots={b => this.setCrimeSpots(b)}
-                          crimeLatLongs={this.state.crimeSpots.map(crime => crime.latLong)} 
+                          crimeLatLongs={this.state.crimeSpots.map(crime => crime.latLong)}
                           setSelectedLatLongDestination={(a) => this.setSelectedLatLongDestination(a)}
+                          distanceBetweenOriginDestination={this.state.distanceBetweenOriginDestination}
                           selectedLatLongDestination={this.state.selectedLatLongDestination}
+                          />
+
           />
       </div>
     );
