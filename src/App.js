@@ -47,8 +47,8 @@ class App extends Component {
 
   render() {
     return (
-      <div className="Safe Parka">
-      <h1 className="text-center">Safe Parka</h1>
+      <div className="App">
+      <h1 className="text-center App-h1"><img src="park-50.png" alt=""/>SafeParka</h1>
           <PostcodeInput setLatLong={(lat, long) => this.setLatLong(lat, long)} enableMarker={()=> this.enableMarker()}/>
 
           <div className="App-map-box">
@@ -56,7 +56,7 @@ class App extends Component {
               isMarkerShown={this.state.isMarkerShown}
               googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxjOZ_DHOBrb_zRdVsXb2vfsUghJp6RzA&v=3.exp&libraries=geometry,drawing,places,visualization"
               loadingElement={<div style={{ height: `150%` }} />}
-              containerElement={<div style={{ height: `700px` }} />}
+              containerElement={<div style={{ height: `300px` }} />}
               mapElement={<div style={{ height: `100%` }} />}
               postocodeLatLong={this.state.postcodeLatLong}
               parkingSpots={this.state.parkingSpots}
@@ -72,6 +72,7 @@ class App extends Component {
                           setCrimeSpots={b => this.setCrimeSpots(b)}
                           crimeLatLongs={this.state.crimeSpots} 
                           setSelectedLatLongDestination={(a) => this.setSelectedLatLongDestination(a)}
+                          selectedLatLongDestination={this.state.selectedLatLongDestination}
                           />
       </div>
     );

@@ -38,10 +38,10 @@ class PostcodeInput extends React.Component {
 
         let submitButton
         if(this.state.postcode === "" ){
-            submitButton = <Button size="lg" className="App-postocde" bsStyle="primary" disabled={true} type="submit">Submit</Button>
+            submitButton = <Button size="lg" className="App-postocde" bsStyle="danger" disabled={true} type="submit">Submit</Button>
         }
         else{
-            submitButton = <Button size="lg" className="App-postocde" bsStyle="primary" type="submit" onClick={this.handleSubmit}>Submit</Button>
+            submitButton = <Button size="lg" className="App-postocde" bsStyle="danger" type="submit" onClick={this.handleSubmit}>Submit</Button>
         }
 
         return <Form>

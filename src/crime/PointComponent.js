@@ -59,21 +59,27 @@ class PointComponent extends Component {
 
     render() {
         const { nearestSpacesWithScores } = this.state
-        const { setSelectedLatLongDestination } = this.props
+        const { setSelectedLatLongDestination, selectedLatLongDestination } = this.props
     
         return (
             <Form>
             <FormGroup>
                  { nearestSpacesWithScores && nearestSpacesWithScores.map(space => 
+                 <span>
                     <Radio name="radioGroup" 
-                           className="parking-result"
-                           key={space.name} 
-                           onChange={() => setSelectedLatLongDestination(space.latLong)}
-                           >
+                        id={space.name}
+                        className='hidden'
+                        key={space.name} 
+                        onChange={() => setSelectedLatLongDestination(space.latLong)}
+                    />
+                    <label htmlFor={space.name}  className={`${selectedLatLongDestination === space.latLong && 'selected'} parking-result`}>
                         <h3>{space.name}</h3>
-                        <p>Latitude: {space.latLong[0]}, Longitude: {space.latLong[1]}</p>
                         <p>Safety score: {convertToDisplayScore(space.score)}</p>
-                    </Radio>
+                    </label>
+                        
+                 </span>
+                    
+                    
                  ) }
               </FormGroup>
             </Form>

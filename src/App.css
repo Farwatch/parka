@@ -1,5 +1,14 @@
 .App {
-  text-align: center;
+  background-color: #282c34;
+}
+
+.root {
+  background-color: #282c34;
+  font-family: 'Impact'
+}
+
+.App-h1 {
+  color: #fFCc00;
 }
 
 .App-logo {
@@ -27,7 +36,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  
 }
 
 .App-link {
@@ -38,13 +47,31 @@
   width: 90%;
   margin-left: 5%;
   display: block;
-  background-color: aliceblue;
+  background-color: slategrey;
   padding: 5px 3px 5px 3px;
   margin-top: 5px;
-  border: 1px solid;
-    padding: 10px;
-    box-shadow: 2px 2px #888888;
+  border: 1px solid black;
+  padding: 10px;
 }
+ .selected{
+  background-color: #fFCc00;
+  color: #282c34
+}
+
+.hidden {
+  position:fixed;
+  opacity:0
+}
+
+h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+p {
+  margin-bottom: 0;
+}
+
 
 @keyframes App-logo-spin {
   from {
