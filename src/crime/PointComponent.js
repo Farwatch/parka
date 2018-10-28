@@ -89,7 +89,7 @@ class PointComponent extends Component {
                             }}>
                             { this.state[`swipeDist${i}`] < -50 && selectedLatLongDestination === space.latLong ?
                                 <a className='parking-result link-thing'
-                                    href={`https://www.google.com/maps/dir/?api=1&${encodeURIComponent(space.name)}`}>{`Get directions to ${space.name} =>`}
+                                    href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(space.name)},manchester,uk`}>{`Get directions to ${space.name} =>`}
                                 </a> :
                                 <span>
                                     <Radio name="radioGroup" 
