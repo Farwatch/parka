@@ -72,6 +72,8 @@ class PointComponent extends Component {
         const { nearestSpacesWithScores } = this.state
         const { setSelectedLatLongDestination, selectedLatLongDestination } = this.props
     
+        nearestSpacesWithScores && window.scrollTo(0, 3000)
+
         return (
             <Form>
                 <FormGroup>

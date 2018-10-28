@@ -16,7 +16,6 @@ class App extends Component {
   }
 
   setLatLong(lat, long) {
-    window.scrollTo(0, 3000)
     this.setState({
       postcodeLatLong: [lat, long]
     })
