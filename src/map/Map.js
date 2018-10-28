@@ -4,7 +4,6 @@ import HeatmapLayer from 'react-google-maps/lib/components/visualization/Heatmap
 import { withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer, Marker, } from "react-google-maps"
 import carParkImage from './park-50.png'
 
-
 class MyMappComponent extends React.Component{
 
     state = {
@@ -20,7 +19,6 @@ class MyMappComponent extends React.Component{
             travelMode: google.maps.TravelMode.WALKING,
         }, (result, status) => {
             if (status === google.maps.DirectionsStatus.OK) {
-                console.log(result)
                 this.setState({
                     directions: result,
                 });
@@ -34,6 +32,7 @@ class MyMappComponent extends React.Component{
     render() {
         const defaultLat = this.props.postocodeLatLong[0] ? this.props.postocodeLatLong[0] : 53.483959
         const defaultLong = this.props.postocodeLatLong[1] ? this.props.postocodeLatLong[1] : -2.244644
+        
         return (
             <GoogleMap
                 center={{ lat: defaultLat, lng:  defaultLong }}
@@ -65,10 +64,12 @@ class MyMappComponent extends React.Component{
                 }
                 {
                     <HeatmapLayer
-                        radius={35}
-                        dissipating={false}
+                        dissipate={false}
                         data={this.props.crimeSpots.map(
-                            crime => new google.maps.LatLng(crime[0], crime[1])
+                            crime => ({
+                                location: new google.maps.LatLng(crime.latLong[0], crime.latLong[1]),
+                                weight: Math.pow(2, Math.floor(Math.random() * Math.floor(6)))
+                            })
                         )}
                     />
                 }

@@ -14,8 +14,8 @@ class PointComponent extends Component {
     
     async componentDidUpdate(prevProps) {
         if (this.props.postcodeLatLong !== prevProps.postcodeLatLong) {
-            const crimeLatLongs = await fetchCrimeData(this.props.postcodeLatLong)
-            this.props.setCrimeSpots(crimeLatLongs)
+            const crimes = await fetchCrimeData(this.props.postcodeLatLong)
+            this.props.setCrimeSpots(crimes)
 
             let nearestSpacesWithScores 
 
@@ -84,17 +84,15 @@ class PointComponent extends Component {
               </FormGroup>
             </Form>
         )
-
-      }
-
+    }
 }
 
 const fetchCrimeData = async (point) => fetch(`https://data.police.uk/api/crimes-street/vehicle-crime?lat=${point[0]}&lng=${point[1]}`)
-  .then(response => {
-    return Promise.resolve(response.json()).then(
-      body => body.map(crime => [crime.location.latitude, crime.location.longitude])
-    )
-  });
+    .then(response => Promise.resolve(response.json())
+    .then(body => body.map(
+        crime => ({ latLong: [crime.location.latitude, crime.location.longitude], date: crime.month })
+    ))
+);
 
 const computePythagDistance = (point1, point2) => {
     const diffX = Math.abs(point2[0]) - Math.abs(point1[0])
@@ -103,7 +101,7 @@ const computePythagDistance = (point1, point2) => {
     return Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2))
   }  
 
-const computeAverageScore = (values) => {
+const computeAverageScore = values => {
     return values.length > 0 ? values.reduce((a, c) => a + c) / values.length : 0
 }  
 
