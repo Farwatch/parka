@@ -48,7 +48,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-      <h1 className="text-center App-h1"><img src="park-50.png" alt=""/>SafeParka</h1>
+          <h1 className="text-center App-h1"><img src="park-50.png" alt=""/>SafeParka</h1>
+          <h3 className="text-center">Enter your postcode or caress the map!</h3>
           <PostcodeInput setLatLong={(lat, long) => this.setLatLong(lat, long)} enableMarker={()=> this.enableMarker()}/>
 
           <div className="App-map-box">
@@ -64,7 +65,10 @@ class App extends Component {
               directionDestination={this.state.postcodeLatLong}
               isDestinationShown={!!this.state.selectedLatLongDestination}
               crimeSpots={this.state.crimeSpots}
-              setLatLong={(lat, long) => this.setLatLong(lat, long)}
+              onClick={(lat, long) => {
+                this.setLatLong(lat, long)
+                this.enableMarker()
+              }}
           />
           </div>
 

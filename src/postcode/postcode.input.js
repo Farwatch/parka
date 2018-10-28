@@ -21,7 +21,6 @@ class PostcodeInput extends React.Component {
         let postcode = new postcodesioClient()
 
         postcode.lookup(this.state.postcode).then(postcode => {
-            console.log(postcode);
             this.props.setLatLong(postcode.latitude, postcode.longitude)
             this.props.enableMarker()
         })

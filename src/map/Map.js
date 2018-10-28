@@ -37,7 +37,7 @@ class MyMappComponent extends React.Component{
             <GoogleMap
                 center={{ lat: defaultLat, lng:  defaultLong }}
                 zoom={this.props.postocodeLatLong[0] ? 15: 13}
-                onClick={event => this.props.setLatLong(event.latLng.lat(), event.latLng.lng())}
+                onClick={event => this.props.onClick(event.latLng.lat(), event.latLng.lng())}
             >
                 {
                     this.props.isMarkerShown &&
