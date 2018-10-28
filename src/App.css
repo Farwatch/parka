@@ -54,7 +54,13 @@
   padding: 10px;
   display: inline-block;
 }
- .selected{
+
+.link-thing {
+  padding: 23px;
+  text-align: right;
+}
+
+.selected{
   background-color: #fFCc00;
   color: #282c34
 }
