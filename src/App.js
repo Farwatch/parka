@@ -64,6 +64,7 @@ class App extends Component {
               directionDestination={this.state.postcodeLatLong}
               isDestinationShown={!!this.state.selectedLatLongDestination}
               crimeSpots={this.state.crimeSpots}
+              setLatLong={(lat, long) => this.setLatLong(lat, long)}
           />
           </div>
 
