@@ -13,9 +13,9 @@ class MyMappComponent extends React.Component{
         distancesBetweenOriginDestination: []
     }
 
-    setDistanceBetween2Points(origin, destination){
+    setDistanceBetween2Points(origin, destination, index){
         const distance = google.maps.geometry.spherical.computeDistanceBetween(origin, destination);
-        this.props.setDistanceBetweenOriginDestination(distance.toFixed(0))
+        this.props.setDistanceBetweenOriginDestination(distance.toFixed(0), index)
     }
 
 
@@ -38,10 +38,10 @@ class MyMappComponent extends React.Component{
             });
         }
         if (this.props.parkingSpots !== prevProps.parkingSpots) {
-            this.props.parkingSpots.forEach(parkSpot => {
+            this.props.parkingSpots.forEach((parkSpot, i) => {
                 let origin = new google.maps.LatLng(parkSpot.lat, parkSpot.long);
                 let destination = new google.maps.LatLng(this.props.directionDestination[0], this.props.directionDestination[1])
-                this.setDistanceBetween2Points(origin, destination)
+                this.setDistanceBetween2Points(origin, destination, i)
             })
         }
 

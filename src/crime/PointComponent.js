@@ -6,6 +6,7 @@ import ParkingData from '../resources/parking_spaces'
 import Form from 'react-bootstrap/lib/Form'
 import Radio from 'react-bootstrap/lib/Radio'
 import FormGroup from 'react-bootstrap/lib/FormGroup'
+import Gauge from 'react-svg-gauge';
 
 class PointComponent extends Component {
     state = {
@@ -64,21 +65,32 @@ class PointComponent extends Component {
         return (
             <Form>
             <FormGroup>
-                { nearestSpacesWithScores && nearestSpacesWithScores.map((space, i) =>
-                    <span key={space.name}>
-                        <Radio name="radioGroup"
-                            id={space.name}
-                            className='hidden'
-                            key={space.name}
-                            onChange={() => setSelectedLatLongDestination(space.latLong)}
-                        />
-                        <label htmlFor={space.name}  className={`${selectedLatLongDestination === space.latLong && 'selected'} parking-result`}>
-                            <h3>{space.name}</h3>
-                            <p>Safety score: {convertToDisplayScore(space.score)}</p>
-                            <p>Distance: {this.props.distanceBetweenOriginDestination[i]} meters</p>
-                        </label>
-                    </span>
-                )}
+                 { nearestSpacesWithScores && nearestSpacesWithScores.map((space, i) => 
+                 <span key={space.name}>
+                    <Radio name="radioGroup" 
+                        id={space.name}
+                        className='hidden'
+                        onChange={() => setSelectedLatLongDestination(space.latLong)}
+                    />
+                    <label htmlFor={space.name} className={`${selectedLatLongDestination === space.latLong && 'selected'} parking-result`}>
+                        <h3>{space.name}</h3>
+                        <p>Distance: {this.props.distanceBetweenOriginDestination[i]} meters</p>
+                        <span style={{float:'right', 'margin-top':'-50px'}}>
+                            <Gauge label='' 
+                                height={50} 
+                                width={60} 
+                                value={to2dp((convertToDisplayScore(space.score)/40) * 100)}
+                                color={getDialColourForValue(convertToDisplayScore(space.score))}
+                                minMaxLabelStyle={{display: 'none'}}
+                                backgroundColor='#000000'
+                                />
+                        </span>
+                    </label>
+                        
+                 </span>
+                    
+                    
+                 ) }
               </FormGroup>
             </Form>
         )
@@ -103,8 +115,17 @@ const computeAverageScore = values => {
     return values.length > 0 ? values.reduce((a, c) => a + c) / values.length : 0
 }  
 
+const to2dp = value => Math.round(value * 100) / 100
+
 const convertToDisplayScore = score => {
     return Math.round( score * 100000) / 10
+}
+
+const getDialColourForValue = value => {
+    if (value < 10) return '#f44336';
+    if (value < 20) return '#ff9800';
+    if (value < 30) return '#fFCc00';
+    return '#4CAF50';
 }
 
 export default PointComponent

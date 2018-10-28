@@ -16,6 +16,7 @@ class App extends Component {
   }
 
   setLatLong(lat, long) {
+    window.scrollTo(0, 3000)
     this.setState({
       postcodeLatLong: [lat, long]
     })
@@ -45,19 +46,19 @@ class App extends Component {
   })}
 
 
-    setDistancesBetweenOriginDestination(distance) {
-      const distanceArray = this.state.distanceBetweenOriginDestination;
-      distanceArray.push(distance);
+    setDistancesBetweenOriginDestination(distance, i) {
+      let distanceArray = this.state.distanceBetweenOriginDestination;
+      distanceArray[i] = (distance);
         this.setState({
             distanceBetweenOriginDestination: distanceArray
         })}
+
 
 
   render() {
     return (
       <div className="App">
           <h1 className="text-center App-h1"><img src="park-50.png" alt=""/>SafeParka</h1>
-          <h3 className="text-center">Enter your postcode or caress the map!</h3>
           <PostcodeInput setLatLong={(lat, long) => this.setLatLong(lat, long)} enableMarker={()=> this.enableMarker()}/>
 
           <div className="App-map-box">
@@ -73,7 +74,7 @@ class App extends Component {
               directionDestination={this.state.postcodeLatLong}
               isDestinationShown={!!this.state.selectedLatLongDestination}
               crimeSpots={this.state.crimeSpots}
-              setDistanceBetweenOriginDestination = {(distances) => this.setDistancesBetweenOriginDestination(distances)}
+              setDistanceBetweenOriginDestination = {(distances, i) => this.setDistancesBetweenOriginDestination(distances, i)}
               onClick={(lat, long) => {
                 this.setLatLong(lat, long)
                 this.enableMarker()
